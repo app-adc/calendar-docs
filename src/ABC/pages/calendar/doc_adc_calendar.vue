@@ -208,7 +208,7 @@ onMounted(() => {
         },
     })
 
-    singleCalendar.render()
+    singleCalendar?.render()
     rangeCalendar.render()
 })
 
@@ -233,20 +233,35 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         // สร้าง instance ใหม่
         singleCalendar = new swCalendar('#playground-single', {
             ...playgroundState.value.single,
+            value: playgroundState.value.single.min
+                ? playgroundState.value.single.min
+                : playgroundState.value.single.value,
             nextDate: (date: Date) => {
                 playgroundState.value.single.value = date
             },
         })
-        singleCalendar.render()
+        setTimeout(() => {
+            singleCalendar?.render()
+        }, 1)
     } else {
         // สร้าง instance ใหม่
         rangeCalendar = new swCalendarBetween('#playground-range', {
             ...playgroundState.value.range,
-            nextDate: ([start, end]: Date[]) => {
-                playgroundState.value.range.values = [start, end]
+            values: playgroundState.value.range.min
+                ? [
+                      playgroundState.value.range.min,
+                      new Date(
+                          playgroundState.value.range.min.getTime() + 86400000
+                      ),
+                  ]
+                : playgroundState.value.range.values,
+            nextDate: (v: Date[]) => {
+                playgroundState.value.range.values = [v[0], v[1]]
             },
         })
-        rangeCalendar.render()
+        setTimeout(() => {
+            rangeCalendar?.render()
+        }, 1)
     }
 }
 </script>
