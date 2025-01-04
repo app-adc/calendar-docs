@@ -56,63 +56,33 @@ function useLayoutNavigation() {
 
     const menus = ref<MenuItem[]>([
         {
-            label: 'ADC Directives',
-            icon: 'Code',
+            label: 'ADC Calendar',
+            icon: 'CalendarDays',
             children: [
                 {
-                    label: 'Getting Started',
-                    icon: 'Download',
-                    path: '/#getting-started',
-                },
-                {
-                    label: 'HTTP Utilities',
-                    icon: 'Globe',
-                    path: '/#http-utilities',
-                },
-                {
-                    label: 'Array Functions',
+                    label: 'Props ที่รองรับ',
                     icon: 'ListFilter',
-                    path: '/#array-functions',
+                    path: '/#props',
                 },
                 {
-                    label: 'Object Functions',
-                    icon: 'Package',
-                    path: '/#object-functions',
+                    label: 'Interactive Playground',
+                    icon: 'PenTool',
+                    path: '/#interactive-playground',
                 },
                 {
-                    label: 'Validation Functions',
-                    icon: 'ShieldCheck',
-                    path: '/#validation-functions',
+                    label: 'ตัวอย่างการใช้งาน',
+                    icon: 'BookOpen',
+                    path: '/#examples',
                 },
                 {
-                    label: 'Date Functions',
-                    icon: 'Calendar',
-                    path: '/#date-functions',
+                    label: 'คำแนะนำเพิ่มเติม',
+                    icon: 'Info',
+                    path: '/#additional-documentation',
                 },
                 {
-                    label: 'String Functions',
-                    icon: 'Text',
-                    path: '/#string-functions',
-                },
-                {
-                    label: 'Number Functions',
-                    icon: 'Hash',
-                    path: '/#number-functions',
-                },
-                {
-                    label: 'Process Functions',
-                    icon: 'DatabaseZap',
-                    path: '/#process-functions',
-                },
-                {
-                    label: 'Function Composition',
-                    icon: 'Code',
-                    path: '/#function-composition',
-                },
-                {
-                    label: 'Other Utilities',
-                    icon: 'Bug',
-                    path: '/#other-utilities',
+                    label: 'Type System',
+                    icon: 'FileCode',
+                    path: '/#type-system',
                 },
             ],
         },

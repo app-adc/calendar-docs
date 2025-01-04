@@ -258,7 +258,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         icon="CalendarDays"
     >
         <!-- Props Table -->
-        <section class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <section class="bg-white rounded-xl shadow-lg p-6 mb-8" id="props">
             <div class="flex items-center gap-3 mb-6">
                 <BcIcon name="ListFilter" size="24" color="primary" />
                 <h2 class="text-xl font-semibold">Props ที่รองรับ</h2>
@@ -291,7 +291,10 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         </section>
 
         <!-- Interactive Playground -->
-        <section class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <section
+            class="bg-white rounded-xl shadow-lg p-6 mb-8"
+            id="interactive-playground"
+        >
             <div class="flex items-center gap-3 mb-6">
                 <BcIcon name="PenTool" size="24" color="primary" />
                 <div>
@@ -527,7 +530,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         </section>
 
         <!-- Examples -->
-        <section class="space-y-6">
+        <section class="space-y-6" id="examples">
             <div class="flex items-center gap-3 mb-6">
                 <BcIcon name="BookOpen" size="24" color="primary" />
                 <h2 class="text-xl font-semibold">ตัวอย่างการใช้งาน</h2>
@@ -561,7 +564,10 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         </section>
 
         <!-- Additional Documentation -->
-        <section class="bg-white rounded-xl shadow-lg p-6 mt-8">
+        <section
+            class="bg-white rounded-xl shadow-lg p-6 mt-8"
+            id="additional-documentation"
+        >
             <div class="flex items-center gap-3 mb-6">
                 <BcIcon name="Info" size="24" color="primary" />
                 <h2 class="text-xl font-semibold">คำแนะนำเพิ่มเติม</h2>
@@ -604,7 +610,10 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         </section>
 
         <!-- Type System -->
-        <section class="bg-white rounded-xl shadow-lg p-6 mt-8">
+        <section
+            class="bg-white rounded-xl shadow-lg p-6 mt-8"
+            id="type-system"
+        >
             <div class="flex items-center gap-3 mb-6">
                 <BcIcon name="FileCode" size="24" color="primary" />
                 <h2 class="text-xl font-semibold">Type System</h2>
