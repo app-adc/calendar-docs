@@ -230,11 +230,23 @@ const copyCode = async (code: string) => {
 // Re-render calendar เมื่อมีการเปลี่ยนค่า
 const reRenderCalendar = (type: 'single' | 'range') => {
     if (type === 'single') {
-        singleCalendar?.stop()
-        singleCalendar?.render()
+        // สร้าง instance ใหม่
+        singleCalendar = new swCalendar('#playground-single', {
+            ...playgroundState.value.single,
+            nextDate: (date: Date) => {
+                playgroundState.value.single.value = date
+            },
+        })
+        singleCalendar.render()
     } else {
-        rangeCalendar?.stop()
-        rangeCalendar?.render()
+        // สร้าง instance ใหม่
+        rangeCalendar = new swCalendarBetween('#playground-range', {
+            ...playgroundState.value.range,
+            nextDate: ([start, end]: Date[]) => {
+                playgroundState.value.range.values = [start, end]
+            },
+        })
+        rangeCalendar.render()
     }
 }
 </script>
