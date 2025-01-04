@@ -7,6 +7,9 @@ import BcLayout from '@/ABC/pages/bc_doc_layout.vue'
 import { swCalendar, swCalendarBetween } from 'adc-calendar'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
+const installCode = `npm install adc-calendar`
+const importCode = `import { swCalendar, swCalendarBetween } from 'adc-calendar'`
+
 // Props documentation
 const propsData = [
     {
@@ -290,14 +293,41 @@ const reRenderCalendar = (type: 'single' | 'range') => {
 
             <div class="space-y-4 mt-4">
                 <h3 class="text-lg font-semibold">Installation</h3>
-                <pre
-                    class="bg-slate-800 rounded-lg p-4 text-white"
-                ><code>npm install adc-calendar</code></pre>
+                <!-- Code Preview -->
+                <div
+                    class="bg-slate-800 rounded-lg flex justify-between items-center pr-4 py-1"
+                >
+                    <pre class="text-white"><code>{{ installCode }}</code></pre>
+
+                    <div class="flex justify-end mb-2">
+                        <BcButton
+                            @click="copyCode(installCode)"
+                            variant="white"
+                            icon="Copy"
+                            size="sm"
+                        >
+                            คัดลอกโค้ด
+                        </BcButton>
+                    </div>
+                </div>
 
                 <h3 class="text-lg font-semibold">Usage</h3>
-                <pre
-                    class="bg-slate-800 rounded-lg p-4 text-white"
-                ><code>import { swCalendar, swCalendarBetween } from 'adc-calendar'</code></pre>
+                <div
+                    class="bg-slate-800 rounded-lg flex justify-between items-center pr-4 py-1"
+                >
+                    <pre class="text-white"><code>{{ importCode }}</code></pre>
+
+                    <div class="flex justify-end mb-2">
+                        <BcButton
+                            @click="copyCode(importCode)"
+                            variant="white"
+                            icon="Copy"
+                            size="sm"
+                        >
+                            คัดลอกโค้ด
+                        </BcButton>
+                    </div>
+                </div>
             </div>
         </section>
         <!-- Props Table -->
