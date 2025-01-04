@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
+import type { PropsInput } from '@/ABC/bc-types'
+import BcForm from '@/ABC/components/BcForm.vue'
 import { swCalendar } from 'adc-calendar'
 import { dateToCombine } from 'adc-directive'
-import BcForm from '@/ABC/components/BcForm.vue'
-import type { PropsInput } from '@/ABC/bc-types'
+import { computed, onMounted, ref } from 'vue'
 
 type PropsBcCalendar = Omit<PropsInput, 'dataValue'> & {
     /**
@@ -49,7 +49,7 @@ const emit = defineEmits<CalendarEmits>()
 // State
 const calendarRef = ref<HTMLElement | null>(null)
 const isOpen = ref(false)
-const calendar = ref<any>(null)
+const calendar = ref<swCalendar | null>(null)
 const dataForSubmit = ref<string | null>(null)
 
 // Computed
@@ -77,15 +77,12 @@ const initializeCalendar = (): void => {
         value: props.dataValue ? new Date(props.dataValue) : new Date(),
         min: props.minDate,
         max: props.maxDate,
-        style: {
-            background: '#ffffff',
-        },
         lang: 'thai',
         year: 'th',
         nextDate: (res: Date) => {
-            const selectedDate = dateToCombine(res)
-            emit('input', selectedDate.valueOfDate)
-            dataForSubmit.value = selectedDate.valueOfDate
+            const { valueOfDate } = dateToCombine(res)
+            emit('input', valueOfDate)
+            dataForSubmit.value = valueOfDate
             closeCalendar()
         },
     })
@@ -112,15 +109,6 @@ const closeCalendar = (): void => {
     emit('blur')
 }
 
-const handleClickOutside = (event: MouseEvent): void => {
-    if (
-        calendarRef.value &&
-        !calendarRef.value.contains(event.target as Node)
-    ) {
-        closeCalendar()
-    }
-}
-
 const handleClear = (): void => {
     emit('input', null)
     dataForSubmit.value = null
@@ -131,17 +119,6 @@ const handleClear = (): void => {
 onMounted(() => {
     initializeCalendar()
 })
-
-// Cleanup
-onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
-    calendar.value?.stop()
-})
-
-// Watchers
-watch(() => props.minDate, initializeCalendar)
-watch(() => props.maxDate, initializeCalendar)
-watch(() => props.dataValue, initializeCalendar)
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import type { PropsInput } from '@/ABC/bc-types'
 import BcForm from '@/ABC/components/BcForm.vue'
 import { swCalendarBetween } from 'adc-calendar'
 import { dateToCombine, toCombineText } from 'adc-directive'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 export type DateRange = [string, string] | null
 
@@ -51,7 +51,7 @@ const emit = defineEmits<CalendarEmits>()
 // State
 const calendarRef = ref<HTMLElement | null>(null)
 const isOpen = ref(false)
-const calendar = ref<any>(null)
+const calendar = ref<swCalendarBetween | null>(null)
 const dataForSubmit = ref<DateRange>(null)
 
 // Computed
@@ -111,16 +111,15 @@ const initializeCalendar = (): void => {
         values: [new Date(), new Date()],
         min: props.minDate,
         max: props.maxDate,
-        style: {
-            background: '#ffffff',
-        },
         lang: 'thai',
         year: 'th',
-        nextDate: (res: Date[]) => {
-            const startDate = dateToCombine(res[0])
-            const endDate = dateToCombine(res[1])
-            emit('input', [startDate.valueOfDate, endDate.valueOfDate])
-            dataForSubmit.value = [startDate.valueOfDate, endDate.valueOfDate]
+        nextDate: ([start, end]: Date[]) => {
+            const values = [
+                dateToCombine(start).valueOfDate,
+                dateToCombine(end).valueOfDate,
+            ] as DateRange
+            emit('input', values)
+            dataForSubmit.value = values
             closeCalendar()
         },
     })
@@ -147,15 +146,6 @@ const closeCalendar = (): void => {
     emit('blur')
 }
 
-const handleClickOutside = (event: MouseEvent): void => {
-    if (
-        calendarRef.value &&
-        !calendarRef.value.contains(event.target as Node)
-    ) {
-        closeCalendar()
-    }
-}
-
 const handleClear = (): void => {
     emit('input', ['', ''])
     dataForSubmit.value = null
@@ -167,17 +157,6 @@ onMounted(() => {
     initializeCalendar()
     console.log('swCalendarBetween >>', calendar.value)
 })
-
-// Cleanup
-onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
-    calendar.value?.stop
-})
-
-// Watchers
-watch(() => props.minDate, initializeCalendar)
-watch(() => props.maxDate, initializeCalendar)
-watch(() => props.dataValue, initializeCalendar)
 </script>
 
 <template>
