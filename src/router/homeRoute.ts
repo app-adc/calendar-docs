@@ -5,8 +5,7 @@ const homeRoute: Array<RouteRecordRaw> = [
     {
         path: '/', // เปลี่ยนจาก /Docs/
         name: 'Home',
-        component: () =>
-            import('@/ABC/pages/directives/doc_adc_directives.vue'),
+        component: () => import('@/ABC/pages/calendar/doc_adc_calendar.vue'),
         meta: {
             title: `${AppTitle}Home`,
         },

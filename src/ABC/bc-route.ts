@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router'
 
 const routeBc: RouteRecordRaw = {
     path: '/',
-    component: () => import('@/ABC/pages/directives/doc_adc_directives.vue'),
+    component: () => import('@/ABC/pages/calendar/doc_adc_calendar.vue'),
     meta: {
         group: 'BC',
         title: 'app components',
