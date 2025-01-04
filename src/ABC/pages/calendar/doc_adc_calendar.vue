@@ -406,7 +406,7 @@ type DateRangeChangeHandler = (dates: [Date, Date]) => void
 type MonthChangeHandler = (date: Date) => void`,
     },
 ]
-// Playground state
+// Playground state and methods
 const playgroundState = ref({
     single: {
         value: new Date(),
