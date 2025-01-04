@@ -60,6 +60,11 @@ function useLayoutNavigation() {
             icon: 'CalendarDays',
             children: [
                 {
+                    label: 'Getting Started',
+                    icon: 'Download',
+                    path: '/#getting-started',
+                },
+                {
                     label: 'Props ที่รองรับ',
                     icon: 'ListFilter',
                     path: '/#props',

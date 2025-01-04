@@ -257,6 +257,34 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         subtitle="Library สำหรับสร้าง Calendar สนับสนุนภาษาไทย และรองรับการเลือกวันที่เดี่ยวหรือช่วงวันที่"
         icon="CalendarDays"
     >
+        <!-- getting-started -->
+        <section
+            class="bg-white rounded-xl shadow-lg p-6 mb-8"
+            id="getting-started"
+        >
+            <div class="flex items-center gap-3 mb-6">
+                <BcIcon name="Star" size="24" color="primary" />
+                <h2 class="text-xl font-semibold">Getting Started</h2>
+            </div>
+
+            <p class="text-slate-600">
+                ADC Calendar เป็น Library สำหรับสร้าง Calendar
+                ที่สามารถเลือกวันที่เดี่ยวหรือช่วงวันที่ได้
+                โดยรองรับภาษาไทยและภาษาอังกฤษ
+            </p>
+
+            <div class="space-y-4 mt-4">
+                <h3 class="text-lg font-semibold">Installation</h3>
+                <pre
+                    class="bg-slate-800 rounded-lg p-4 text-white"
+                ><code>npm install adc-calendar</code></pre>
+
+                <h3 class="text-lg font-semibold">Usage</h3>
+                <pre
+                    class="bg-slate-800 rounded-lg p-4 text-white"
+                ><code>import { swCalendar, swCalendarBetween } from 'adc-calendar'</code></pre>
+            </div>
+        </section>
         <!-- Props Table -->
         <section class="bg-white rounded-xl shadow-lg p-6 mb-8" id="props">
             <div class="flex items-center gap-3 mb-6">
