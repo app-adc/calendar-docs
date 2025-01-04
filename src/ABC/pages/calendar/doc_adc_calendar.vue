@@ -54,9 +54,359 @@ const propsData = [
         default: '"th"',
         description: 'รูปแบบการแสดงปี (พ.ศ./ค.ศ.)',
     },
+    {
+        prop: 'style',
+        type: `{
+    'font-family': string
+    'text-picker': string
+    'text-week': string
+    background: string
+    border: string
+    text: string
+    borderRadius: string
+    current: string
+    disabled: string
+    picker: string
+    shadow: string
+    width: string
+    dateRadius: string
+}`,
+        required: false,
+        default: '{}',
+        description: 'กำหนดสไตล์ของปฏิทิน',
+    },
+    {
+        prop: 'nextMonth',
+        type: '(date: Date) => void',
+        required: false,
+        default: 'undefined',
+        description: 'callback function เมื่อมีการเปลี่ยนเดือน',
+    },
+    {
+        prop: 'nextDate',
+        type: '(date: Date | [Date, Date]) => void ',
+        required: true,
+        default: 'undefined',
+        description: 'callback function เมื่อมีการเลือกวันที่',
+    },
 ]
 
-// สถานะสำหรับ Interactive Playground
+// Style controls
+const styleControls = [
+    {
+        key: 'text-picker',
+        label: 'สีตัวอักษรวันที่เลือก',
+        type: 'color',
+        default: 'white',
+    },
+    {
+        key: 'text-week',
+        label: 'สีตัวอักษรวันในสัปดาห์',
+        type: 'color',
+        default: '#1e293b',
+    },
+    {
+        key: 'background',
+        label: 'สีพื้นหลัง',
+        type: 'color',
+        default: 'white',
+    },
+    {
+        key: 'text',
+        label: 'สีตัวอักษรทั่วไป',
+        type: 'color',
+        default: 'black',
+    },
+    {
+        key: 'current',
+        label: 'สีวันที่ปัจจุบัน',
+        type: 'color',
+        default: 'var(--primary)',
+    },
+    {
+        key: 'picker',
+        label: 'สีวันที่เลือก',
+        type: 'color',
+        default: 'var(--primary)',
+    },
+    {
+        key: 'disabled',
+        label: 'สีวันที่ปิดใช้งาน',
+        type: 'color',
+        default: 'var(--disabled)',
+    },
+    {
+        key: 'borderRadius',
+        label: 'ความมนของขอบ',
+        type: 'select',
+        options: [
+            { value: '0', label: 'ไม่มน' },
+            { value: '0.375rem', label: 'มนน้อย' },
+            { value: '0.75rem', label: 'มนปานกลาง' },
+            { value: '1rem', label: 'มนมาก' },
+        ],
+        default: '0.75rem',
+    },
+    {
+        key: 'dateRadius',
+        label: 'ความมนของวันที่',
+        type: 'select',
+        options: [
+            { value: '0', label: 'เหลี่ยม' },
+            { value: '0.5rem', label: 'มนน้อย' },
+            { value: '1rem', label: 'มนปานกลาง' },
+            { value: '3rem', label: 'กลม' },
+        ],
+        default: '3rem',
+    },
+    {
+        key: 'shadow',
+        label: 'เงา',
+        type: 'select',
+        options: [
+            { value: 'none', label: 'ไม่มีเงา' },
+            { value: '0 1px 2px rgb(0 0 0 / 0.1)', label: 'เงาน้อย' },
+            { value: '0 4px 6px -1px rgb(0 0 0 / 0.1)', label: 'เงาปานกลาง' },
+            { value: '0 10px 15px -3px rgb(0 0 0 / 0.1)', label: 'เงามาก' },
+        ],
+        default: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+    },
+    {
+        key: 'width',
+        label: 'ความกว้าง',
+        type: 'select',
+        options: [
+            { value: '260px', label: 'เล็ก' },
+            { value: '300px', label: 'กลาง' },
+            { value: '340px', label: 'ใหญ่' },
+        ],
+        default: '300px',
+    },
+]
+
+// Default style
+const defaultStyle = {
+    'font-family': 'Kanit, sans-serif',
+    'text-picker': 'white',
+    'text-week': '#1e293b',
+    background: 'white',
+    border: 'none',
+    text: 'black',
+    borderRadius: '0.75rem',
+    current: 'var(--primary)',
+    disabled: 'var(--disabled)',
+    picker: 'var(--primary)',
+    shadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+    width: '300px',
+    dateRadius: '3rem',
+}
+const examples = [
+    {
+        title: 'การใช้งานพื้นฐาน',
+        description: 'การใช้งาน swCalendar สำหรับเลือกวันที่เดี่ยว',
+        code: `import { swCalendar } from 'adc-calendar'
+
+const calendar = new swCalendar('#calendar', {
+    value: new Date(),
+    lang: 'thai',
+    year: 'th',
+    nextDate: (date: Date) => {
+        console.log('Selected:', date)
+    }
+})
+
+calendar.render()`,
+    },
+    {
+        title: 'การเลือกช่วงวันที่',
+        description: 'การใช้งาน swCalendarBetween สำหรับเลือกช่วงวันที่',
+        code: `import { swCalendarBetween } from 'adc-calendar'
+
+const calendar = new swCalendarBetween('#calendar', {
+    values: [new Date(), new Date()],
+    lang: 'thai',
+    year: 'th',
+    nextDate: ([start, end]: Date[]) => {
+        console.log('Selected range:', { start, end })
+    }
+})
+
+calendar.render()`,
+    },
+    {
+        title: 'การกำหนดขอบเขตวันที่',
+        description: 'การกำหนดวันที่ต่ำสุดและสูงสุดที่เลือกได้',
+        code: `const calendar = new swCalendar('#calendar', {
+    value: new Date(),
+    min: new Date('2024-01-01'),
+    max: new Date('2024-12-31'),
+    nextDate: (date: Date) => {
+        console.log('Selected:', date)
+    }
+})
+
+calendar.render()`,
+    },
+    {
+        title: 'การใช้งานภาษาอังกฤษ',
+        description: 'การแสดงปฏิทินในรูปแบบภาษาอังกฤษและปี ค.ศ.',
+        code: `const calendar = new swCalendar('#calendar', {
+    value: new Date(),
+    lang: 'english',
+    year: 'en',
+    nextDate: (date: Date) => {
+        console.log('Selected:', date)
+    }
+})
+
+calendar.render()`,
+    },
+    {
+        title: 'การกำหนดสไตล์',
+        description: 'การปรับแต่งรูปแบบการแสดงผลของปฏิทิน',
+        code: `const calendar = new swCalendar('#calendar', {
+    value: new Date(),
+    style: {
+        'font-family': 'Kanit, sans-serif',
+        'text-picker': 'white',
+        'text-week': '#1e293b',
+        background: 'white',
+        text: 'black',
+        borderRadius: '0.75rem',
+        current: 'var(--primary)',
+        disabled: 'var(--disabled)',
+        picker: 'var(--primary)',
+        shadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+        width: '300px',
+        dateRadius: '3rem'
+    }
+})
+
+calendar.render()`,
+    },
+    {
+        title: 'การจัดการ Event',
+        description: 'การใช้งาน callback functions สำหรับเหตุการณ์ต่างๆ',
+        code: `const calendar = new swCalendar('#calendar', {
+    value: new Date(),
+    nextDate: (date: Date) => {
+        console.log('วันที่เลือก:', date)
+    },
+    nextMonth: (date: Date) => {
+        console.log('เปลี่ยนเดือนเป็น:', date)
+    }
+})
+
+calendar.render()`,
+    },
+    {
+        title: 'การใช้งานแบบสมบูรณ์',
+        description: 'ตัวอย่างการใช้งานที่รวมคุณสมบัติต่างๆ',
+        code: `import { swCalendarBetween } from 'adc-calendar'
+
+const calendar = new swCalendarBetween('#calendar', {
+    values: [new Date(), new Date()],
+    min: new Date('2024-01-01'),
+    max: new Date('2024-12-31'),
+    lang: 'thai',
+    year: 'th',
+    style: {
+        'font-family': 'Kanit, sans-serif',
+        'text-picker': 'white',
+        'text-week': '#1e293b',
+        background: 'white',
+        text: 'black',
+        borderRadius: '0.75rem',
+        current: 'var(--primary)',
+        disabled: 'var(--disabled)',
+        picker: 'var(--primary)',
+        shadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+        width: '300px',
+        dateRadius: '3rem'
+    },
+    nextDate: ([start, end]: Date[]) => {
+        console.log('ช่วงวันที่เลือก:', { start, end })
+    },
+    nextMonth: (date: Date) => {
+        console.log('เปลี่ยนเดือนเป็น:', date)
+    }
+})
+
+calendar.render()`,
+    },
+]
+
+// ใช้ในส่วน script setup
+const typeSystemExamples = [
+    {
+        category: 'Calendar Configuration Types',
+        description: 'Type สำหรับการกำหนดค่าปฏิทิน',
+        code: `// Type สำหรับ swCalendar
+type CalendarConfig = {
+    // ค่าที่จำเป็น (Required)
+    value: Date                      // วันที่ที่เลือก
+    
+    // ค่าที่เลือกได้ (Optional)
+    min?: Date | null               // วันที่ต่ำสุดที่เลือกได้
+    max?: Date | null               // วันที่สูงสุดที่เลือกได้
+    lang?: 'thai' | 'english'       // ภาษาที่ใช้แสดงผล 
+    year?: 'th' | 'en'             // รูปแบบการแสดงปี
+    
+    // Event Callbacks
+    nextDate?: (date: Date) => void  // เมื่อเลือกวันที่
+    nextMonth?: (date: Date) => void // เมื่อเปลี่ยนเดือน
+
+    // Style Configuration
+    style?: CalendarStyle
+}
+
+// Type สำหรับ swCalendarBetween
+type CalendarBetweenConfig = Omit<CalendarConfig, 'value'> & {
+    values: [Date, Date]            // ช่วงวันที่ที่เลือก [start, end]
+    nextDate?: (dates: [Date, Date]) => void  // callback รับช่วงวันที่
+}`,
+    },
+    {
+        category: 'Style Types',
+        description: 'Type สำหรับการกำหนดสไตล์',
+        code: `type CalendarStyle = {
+    // Fonts
+    'font-family': string           // font-family ของปฏิทิน
+
+    // Colors
+    'text-picker': string          // สีตัวอักษรวันที่เลือก
+    'text-week': string           // สีตัวอักษรวันในสัปดาห์
+    background: string            // สีพื้นหลัง
+    text: string                 // สีตัวอักษรทั่วไป
+    current: string              // สีวันที่ปัจจุบัน
+    disabled: string             // สีวันที่ปิดใช้งาน
+    picker: string               // สีวันที่เลือก
+    
+    // Layout
+    borderRadius: string         // ความมนของขอบปฏิทิน
+    dateRadius: string          // ความมนของวันที่
+    width: string              // ความกว้างของปฏิทิน
+    shadow: string             // เงาของปฏิทิน
+    border: string             // เส้นขอบของปฏิทิน
+}`,
+    },
+
+    {
+        category: 'Helper Types',
+        description: 'Type สำหรับช่วยในการใช้งาน',
+        code: `// Type สำหรับตรวจสอบภาษา
+type Language = 'thai' | 'english'
+
+// Type สำหรับรูปแบบปี
+type YearFormat = 'th' | 'en'
+
+// Type สำหรับ Event Handler
+type DateChangeHandler = (date: Date) => void
+type DateRangeChangeHandler = (dates: [Date, Date]) => void
+type MonthChangeHandler = (date: Date) => void`,
+    },
+]
+// Playground state
 const playgroundState = ref({
     single: {
         value: new Date(),
@@ -64,6 +414,7 @@ const playgroundState = ref({
         max: undefined as Date | undefined,
         lang: 'thai' as 'thai' | 'english',
         year: 'th' as 'th' | 'en',
+        style: { ...defaultStyle },
     },
     range: {
         values: [new Date(), new Date()] as [Date, Date],
@@ -71,10 +422,133 @@ const playgroundState = ref({
         max: undefined as Date | undefined,
         lang: 'thai' as 'thai' | 'english',
         year: 'th' as 'th' | 'en',
+        style: { ...defaultStyle },
     },
 })
 
-// สร้างโค้ดตัวอย่างจากการตั้งค่าปัจจุบัน - Single Calendar
+// Update style
+type StyleProperties = {
+    'font-family': string
+    'text-picker': string
+    'text-week': string
+    background: string
+    border: string
+    text: string
+    borderRadius: string
+    current: string
+    disabled: string
+    picker: string
+    shadow: string
+    width: string
+    dateRadius: string
+}
+
+const updateStyle = (
+    type: 'single' | 'range',
+    property: keyof StyleProperties,
+    value: string
+) => {
+    if (type === 'single') {
+        playgroundState.value.single.style[property] = value
+    } else {
+        playgroundState.value.range.style[property] = value
+    }
+    reRenderCalendar(type)
+}
+
+// Reset styles
+const resetStyles = (type: 'single' | 'range') => {
+    if (type === 'single') {
+        playgroundState.value.single.style = { ...defaultStyle }
+    } else {
+        playgroundState.value.range.style = { ...defaultStyle }
+    }
+    reRenderCalendar(type)
+}
+
+// Calendar instances
+let singleCalendar: swCalendar | null = null
+let rangeCalendar: swCalendarBetween | null = null
+
+onMounted(() => {
+    singleCalendar = new swCalendar('#playground-single', {
+        ...playgroundState.value.single,
+        nextDate: (date: Date) => {
+            playgroundState.value.single.value = date
+        },
+        nextMonth: (date: Date) => {
+            console.log('Next month:', date)
+        },
+    })
+
+    rangeCalendar = new swCalendarBetween('#playground-range', {
+        ...playgroundState.value.range,
+        nextDate: ([start, end]: Date[]) => {
+            playgroundState.value.range.values = [start, end]
+        },
+        nextMonth: (date: Date) => {
+            console.log('Next month:', date)
+        },
+    })
+
+    singleCalendar?.render()
+    rangeCalendar.render()
+})
+
+onUnmounted(() => {
+    singleCalendar?.stop()
+    rangeCalendar?.stop()
+})
+
+const copyCode = async (code: string) => {
+    try {
+        await navigator.clipboard.writeText(code)
+    } catch (err) {
+        console.error('Failed to copy:', err)
+    }
+}
+
+const reRenderCalendar = (type: 'single' | 'range') => {
+    if (type === 'single') {
+        singleCalendar = new swCalendar('#playground-single', {
+            ...playgroundState.value.single,
+            value: playgroundState.value.single.min
+                ? playgroundState.value.single.min
+                : playgroundState.value.single.value,
+            nextDate: (date: Date) => {
+                playgroundState.value.single.value = date
+            },
+            nextMonth: (date: Date) => {
+                console.log('Next month:', date)
+            },
+        })
+        setTimeout(() => {
+            singleCalendar?.render()
+        }, 1)
+    } else {
+        rangeCalendar = new swCalendarBetween('#playground-range', {
+            ...playgroundState.value.range,
+            values: playgroundState.value.range.min
+                ? [
+                      playgroundState.value.range.min,
+                      new Date(
+                          playgroundState.value.range.min.getTime() + 86400000
+                      ),
+                  ]
+                : playgroundState.value.range.values,
+            nextDate: (v: Date[]) => {
+                playgroundState.value.range.values = [v[0], v[1]]
+            },
+            nextMonth: (date: Date) => {
+                console.log('Next month:', date)
+            },
+        })
+        setTimeout(() => {
+            rangeCalendar?.render()
+        }, 1)
+    }
+}
+
 const singlePlaygroundCode = computed(() => {
     const config = playgroundState.value.single
     const lines = [
@@ -98,8 +572,12 @@ const singlePlaygroundCode = computed(() => {
     lines.push(
         `    lang: '${config.lang}',`,
         `    year: '${config.year}',`,
+        `    style: ${JSON.stringify(config.style, null, 8)},`,
         '    nextDate: (date: Date) => {',
         '        console.log("Selected:", date)',
+        '    },',
+        '    nextMonth: (date: Date) => {',
+        '        console.log("Next month:", date)',
         '    }',
         '})',
         '',
@@ -109,7 +587,6 @@ const singlePlaygroundCode = computed(() => {
     return lines.join('\n')
 })
 
-// สร้างโค้ดตัวอย่างจากการตั้งค่าปัจจุบัน - Range Calendar
 const rangePlaygroundCode = computed(() => {
     const config = playgroundState.value.range
     const lines = [
@@ -136,8 +613,12 @@ const rangePlaygroundCode = computed(() => {
     lines.push(
         `    lang: '${config.lang}',`,
         `    year: '${config.year}',`,
+        `    style: ${JSON.stringify(config.style, null, 8)},`,
         '    nextDate: ([start, end]: Date[]) => {',
         '        console.log("Range:", { start, end })',
+        '    },',
+        '    nextMonth: (date: Date) => {',
+        '        console.log("Next month:", date)',
         '    }',
         '})',
         '',
@@ -146,127 +627,6 @@ const rangePlaygroundCode = computed(() => {
 
     return lines.join('\n')
 })
-
-// ตัวอย่างการใช้งาน
-const examples = [
-    {
-        title: 'การใช้งานพื้นฐาน',
-        description: 'การใช้งาน swCalendar สำหรับเลือกวันที่เดี่ยว',
-        code: `import { swCalendar } from 'adc-calendar'
-
-const calendar = new swCalendar('#calendar', {
-    value: new Date(),
-    lang: 'thai',
-    year: 'th',
-    nextDate: (date: Date) => {
-        console.log('Selected:', date)
-    }
-})`,
-    },
-    {
-        title: 'การเลือกช่วงวันที่',
-        description: 'การใช้งาน swCalendarBetween สำหรับเลือกช่วงวันที่',
-        code: `import { swCalendarBetween } from 'adc-calendar'
-
-const calendar = new swCalendarBetween('#calendar', {
-    values: [new Date(), new Date()],
-    lang: 'thai',
-    year: 'th',
-    nextDate: ([start, end]: Date[]) => {
-        console.log('Range:', { start, end })
-    }
-})`,
-    },
-    {
-        title: 'การกำหนดขอบเขตวันที่',
-        description: 'การกำหนดวันที่ต่ำสุดและสูงสุดที่เลือกได้',
-        code: `const calendar = new swCalendar('#calendar', {
-    value: new Date(),
-    min: new Date('2024-01-01'),  // วันที่ต่ำสุด
-    max: new Date('2024-12-31'),  // วันที่สูงสุด
-    nextDate: (date: Date) => {
-        console.log('Selected:', date)
-    }
-})`,
-    },
-]
-
-// Calendar instances สำหรับ Interactive Playground
-let singleCalendar: swCalendar | null = null
-let rangeCalendar: swCalendarBetween | null = null
-
-// สร้าง calendar instances เมื่อ component mount
-onMounted(() => {
-    singleCalendar = new swCalendar('#playground-single', {
-        ...playgroundState.value.single,
-        nextDate: (date: Date) => {
-            playgroundState.value.single.value = date
-        },
-    })
-
-    rangeCalendar = new swCalendarBetween('#playground-range', {
-        ...playgroundState.value.range,
-        nextDate: ([start, end]: Date[]) => {
-            playgroundState.value.range.values = [start, end]
-        },
-    })
-
-    singleCalendar?.render()
-    rangeCalendar.render()
-})
-
-// ทำความสะอาด instances เมื่อ component unmount
-onUnmounted(() => {
-    singleCalendar?.stop()
-    rangeCalendar?.stop()
-})
-
-// คัดลอกโค้ด
-const copyCode = async (code: string) => {
-    try {
-        await navigator.clipboard.writeText(code)
-    } catch (err) {
-        console.error('Failed to copy:', err)
-    }
-}
-
-// Re-render calendar เมื่อมีการเปลี่ยนค่า
-const reRenderCalendar = (type: 'single' | 'range') => {
-    if (type === 'single') {
-        // สร้าง instance ใหม่
-        singleCalendar = new swCalendar('#playground-single', {
-            ...playgroundState.value.single,
-            value: playgroundState.value.single.min
-                ? playgroundState.value.single.min
-                : playgroundState.value.single.value,
-            nextDate: (date: Date) => {
-                playgroundState.value.single.value = date
-            },
-        })
-        setTimeout(() => {
-            singleCalendar?.render()
-        }, 1)
-    } else {
-        // สร้าง instance ใหม่
-        rangeCalendar = new swCalendarBetween('#playground-range', {
-            ...playgroundState.value.range,
-            values: playgroundState.value.range.min
-                ? [
-                      playgroundState.value.range.min,
-                      new Date(
-                          playgroundState.value.range.min.getTime() + 86400000
-                      ),
-                  ]
-                : playgroundState.value.range.values,
-            nextDate: (v: Date[]) => {
-                playgroundState.value.range.values = [v[0], v[1]]
-            },
-        })
-        setTimeout(() => {
-            rangeCalendar?.render()
-        }, 1)
-    }
-}
 </script>
 
 <template>
@@ -275,7 +635,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         subtitle="Library สำหรับสร้าง Calendar สนับสนุนภาษาไทย และรองรับการเลือกวันที่เดี่ยวหรือช่วงวันที่"
         icon="CalendarDays"
     >
-        <!-- getting-started -->
+        <!-- Installation -->
         <section
             class="bg-white rounded-xl shadow-lg p-6 mb-8"
             id="getting-started"
@@ -292,41 +652,34 @@ const reRenderCalendar = (type: 'single' | 'range') => {
             </p>
 
             <div class="space-y-4 mt-4">
-                <h3 class="text-lg font-semibold">Installation</h3>
-                <!-- Code Preview -->
+                <!-- Installation Code -->
                 <div
                     class="bg-slate-800 rounded-lg flex justify-between items-center pr-4 py-1"
                 >
                     <pre class="text-white"><code>{{ installCode }}</code></pre>
-
-                    <div class="flex justify-end mb-2">
-                        <BcButton
-                            @click="copyCode(installCode)"
-                            variant="white"
-                            icon="Copy"
-                            size="sm"
-                        >
-                            คัดลอกโค้ด
-                        </BcButton>
-                    </div>
+                    <BcButton
+                        @click="copyCode(installCode)"
+                        variant="white"
+                        icon="Copy"
+                        size="sm"
+                    >
+                        คัดลอกโค้ด
+                    </BcButton>
                 </div>
 
-                <h3 class="text-lg font-semibold">Usage</h3>
+                <!-- Import Code -->
                 <div
                     class="bg-slate-800 rounded-lg flex justify-between items-center pr-4 py-1"
                 >
                     <pre class="text-white"><code>{{ importCode }}</code></pre>
-
-                    <div class="flex justify-end mb-2">
-                        <BcButton
-                            @click="copyCode(importCode)"
-                            variant="white"
-                            icon="Copy"
-                            size="sm"
-                        >
-                            คัดลอกโค้ด
-                        </BcButton>
-                    </div>
+                    <BcButton
+                        @click="copyCode(importCode)"
+                        variant="white"
+                        icon="Copy"
+                        size="sm"
+                    >
+                        คัดลอกโค้ด
+                    </BcButton>
                 </div>
             </div>
         </section>
@@ -370,28 +723,20 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         >
             <div class="flex items-center gap-3 mb-6">
                 <BcIcon name="PenTool" size="24" color="primary" />
-                <div>
-                    <h2 class="text-xl font-semibold">
-                        Interactive Playground
-                    </h2>
-                    <p class="text-sm text-slate-600 mt-1">
-                        ทดลองปรับแต่งค่าต่างๆ ของ Calendar
-                    </p>
-                </div>
+                <h2 class="text-xl font-semibold">Interactive Playground</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Single Calendar -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Single Calendar</h3>
-
-                    <!-- Preview -->
                     <div class="bg-slate-50 p-4 rounded-lg">
                         <div id="playground-single"></div>
                     </div>
 
                     <!-- Controls -->
                     <div class="space-y-4">
+                        <!-- Language -->
                         <BcSelect
                             id="lang"
                             label="ภาษา"
@@ -410,6 +755,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                             "
                         />
 
+                        <!-- Year Format -->
                         <BcSelect
                             id="year"
                             label="รูปแบบปี"
@@ -428,6 +774,85 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                             "
                         />
 
+                        <!-- Style Controls -->
+                        <div class="bg-slate-50 rounded-lg p-4 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-medium">ปรับแต่งสไตล์</h4>
+                                <BcButton
+                                    variant="outline"
+                                    size="sm"
+                                    icon="XCircle"
+                                    @click="resetStyles('single')"
+                                >
+                                    รีเซ็ต
+                                </BcButton>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4">
+                                <template
+                                    v-for="control in styleControls"
+                                    :key="control.key"
+                                >
+                                    <div class="space-y-2">
+                                        <label
+                                            class="text-sm font-medium text-slate-700"
+                                        >
+                                            {{ control.label }}
+                                        </label>
+
+                                        <!-- Color Input -->
+                                        <template
+                                            v-if="control.type === 'color'"
+                                        >
+                                            <div class="flex gap-2">
+                                                <input
+                                                    type="color"
+                                                    :value="
+                                                        playgroundState.single
+                                                            .style[control.key as keyof StyleProperties]
+                                                    "
+                                                    @input="(e) => updateStyle('single', control.key as keyof StyleProperties, (e.target as HTMLInputElement).value)"
+                                                    class="w-8 h-8 rounded border"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    :value="
+                                                        playgroundState.single
+                                                            .style[control.key as keyof StyleProperties]
+                                                    "
+                                                    @input="(e) => updateStyle('single', control.key as keyof StyleProperties, (e.target as HTMLInputElement).value)"
+                                                    class="flex-1 px-2 py-1 border rounded"
+                                                />
+                                            </div>
+                                        </template>
+
+                                        <!-- Select Input -->
+                                        <select
+                                            v-else-if="
+                                                control.type === 'select'
+                                            "
+                                            :value="
+                                                playgroundState.single.style[
+                                                    control.key as keyof StyleProperties
+                                                ]
+                                            "
+                                            @change="(e) => updateStyle('single', control.key as keyof StyleProperties, (e.target as HTMLSelectElement).value)"
+                                            class="w-full px-2 py-1 border rounded bg-white"
+                                        >
+                                            <option
+                                                v-for="option in control.options"
+                                                :key="option.value"
+                                                :value="option.value"
+                                            >
+                                                {{ option.label }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Date Range Controls -->
                         <BcCalendar
                             id="min"
                             calendar-id="playground-single-min"
@@ -437,7 +862,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                                     ? playgroundState.single.min
                                           .toISOString()
                                           .split('T')[0]
-                                    : ''
+                                    : null
                             "
                             @input="
                                 (date) => {
@@ -459,7 +884,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                                     ? playgroundState.single.max
                                           .toISOString()
                                           .split('T')[0]
-                                    : ''
+                                    : null
                             "
                             @input="
                                 (date) => {
@@ -494,15 +919,15 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                 <!-- Range Calendar -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Range Calendar</h3>
-
-                    <!-- Preview -->
                     <div class="bg-slate-50 p-4 rounded-lg">
                         <div id="playground-range"></div>
                     </div>
-                    <!-- Controls -->
+
+                    <!-- Controls (Similar structure as Single Calendar) -->
                     <div class="space-y-4">
+                        <!-- Language -->
                         <BcSelect
-                            id="lang"
+                            id="lang-range"
                             label="ภาษา"
                             :items="[
                                 { value: 'thai', label: 'ภาษาไทย' },
@@ -519,8 +944,9 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                             "
                         />
 
+                        <!-- Year Format -->
                         <BcSelect
-                            id="year"
+                            id="year-range"
                             label="รูปแบบปี"
                             :items="[
                                 { value: 'th', label: 'พ.ศ.' },
@@ -537,6 +963,85 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                             "
                         />
 
+                        <!-- Style Controls -->
+                        <div class="bg-slate-50 rounded-lg p-4 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-medium">ปรับแต่งสไตล์</h4>
+                                <BcButton
+                                    variant="outline"
+                                    size="sm"
+                                    icon="CircleX"
+                                    @click="resetStyles('range')"
+                                >
+                                    รีเซ็ต
+                                </BcButton>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4">
+                                <template
+                                    v-for="control in styleControls"
+                                    :key="control.key"
+                                >
+                                    <div class="space-y-2">
+                                        <label
+                                            class="text-sm font-medium text-slate-700"
+                                        >
+                                            {{ control.label }}
+                                        </label>
+
+                                        <!-- Color Input -->
+                                        <template
+                                            v-if="control.type === 'color'"
+                                        >
+                                            <div class="flex gap-2">
+                                                <input
+                                                    type="color"
+                                                    :value="
+                                                        playgroundState.range
+                                                            .style[control.key as keyof StyleProperties]
+                                                    "
+                                                    @input="(e) => updateStyle('range', control.key as keyof StyleProperties, (e.target as HTMLInputElement).value)"
+                                                    class="w-8 h-8 rounded border"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    :value="
+                                                        playgroundState.range
+                                                            .style[control.key as keyof StyleProperties]
+                                                    "
+                                                    @input="(e) => updateStyle('range', control.key as keyof StyleProperties, (e.target as HTMLInputElement).value)"
+                                                    class="flex-1 px-2 py-1 border rounded"
+                                                />
+                                            </div>
+                                        </template>
+
+                                        <!-- Select Input -->
+                                        <select
+                                            v-else-if="
+                                                control.type === 'select'
+                                            "
+                                            :value="
+                                                playgroundState.range.style[
+                                                    control.key as keyof StyleProperties
+                                                ]
+                                            "
+                                            @change="(e) => updateStyle('range', control.key as keyof StyleProperties, (e.target as HTMLSelectElement).value)"
+                                            class="w-full px-2 py-1 border rounded bg-white"
+                                        >
+                                            <option
+                                                v-for="option in control.options"
+                                                :key="option.value"
+                                                :value="option.value"
+                                            >
+                                                {{ option.label }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Date Range Controls -->
                         <BcCalendar
                             id="min-range"
                             calendar-id="playground-range-min"
@@ -546,7 +1051,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                                     ? playgroundState.range.min
                                           .toISOString()
                                           .split('T')[0]
-                                    : ''
+                                    : null
                             "
                             @input="
                                 (date) => {
@@ -568,7 +1073,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                                     ? playgroundState.range.max
                                           .toISOString()
                                           .split('T')[0]
-                                    : ''
+                                    : null
                             "
                             @input="
                                 (date) => {
@@ -601,7 +1106,6 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                 </div>
             </div>
         </section>
-
         <!-- Examples -->
         <section class="space-y-6" id="examples">
             <div class="flex items-center gap-3 mb-6">
@@ -683,6 +1187,7 @@ const reRenderCalendar = (type: 'single' | 'range') => {
         </section>
 
         <!-- Type System -->
+        <!-- Type System Section -->
         <section
             class="bg-white rounded-xl shadow-lg p-6 mt-8"
             id="type-system"
@@ -692,37 +1197,36 @@ const reRenderCalendar = (type: 'single' | 'range') => {
                 <h2 class="text-xl font-semibold">Type System</h2>
             </div>
 
-            <div class="space-y-4">
-                <!-- Config Type -->
-                <div class="bg-slate-800 rounded-lg p-4">
-                    <h3 class="text-lg font-semibold text-white mb-2">
-                        Calendar Config
-                    </h3>
-                    <pre class="text-slate-200"><code>type CalendarConfig = {
-    value: Date                  // สำหรับ swCalendar
-    values?: [Date, Date]        // สำหรับ swCalendarBetween
-    min?: Date | null            // วันที่ต่ำสุด
-    max?: Date | null            // วันที่สูงสุด
-    lang: 'thai' | 'english'     // ภาษา
-    year: 'th' | 'en'           // รูปแบบปี
-    nextDate: (date: Date) => void  // callback เมื่อเลือกวันที่
-}</code></pre>
-                </div>
+            <div class="space-y-6">
+                <template
+                    v-for="type in typeSystemExamples"
+                    :key="type.category"
+                >
+                    <div class="bg-slate-50 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-2">
+                            {{ type.category }}
+                        </h3>
+                        <p class="text-slate-600 mb-4">
+                            {{ type.description }}
+                        </p>
 
-                <!-- Method Types -->
-                <div class="bg-slate-800 rounded-lg p-4">
-                    <h3 class="text-lg font-semibold text-white mb-2">
-                        Available Methods
-                    </h3>
-                    <pre
-                        class="text-slate-200"
-                    ><code>interface CalendarMethods {
-    render(): void               // แสดง calendar
-    stop(): void                // ทำลาย instance
-    getValue(): Date            // รับค่าวันที่ปัจจุบัน
-    setValue(date: Date): void  // กำหนดค่าวันที่
-}</code></pre>
-                </div>
+                        <div class="bg-slate-800 rounded-lg p-4">
+                            <div class="flex justify-end mb-2">
+                                <BcButton
+                                    @click="copyCode(type.code)"
+                                    variant="white"
+                                    icon="Copy"
+                                    size="sm"
+                                >
+                                    คัดลอกโค้ด
+                                </BcButton>
+                            </div>
+                            <pre
+                                class="text-slate-200"
+                            ><code>{{ type.code }}</code></pre>
+                        </div>
+                    </div>
+                </template>
             </div>
         </section>
     </BcLayout>
@@ -738,12 +1242,32 @@ code {
     font-family: ui-monospace, monospace;
 }
 
-.list-disc {
-    list-style-type: disc;
-    padding-left: 1rem;
+input[type='color'] {
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
 }
 
-/* Calendar container styling */
+input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type='color']::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
 :deep([calendar='root']) {
     --background: white;
     --picker: var(--primary);
@@ -757,5 +1281,70 @@ code {
     --border: none;
     --width: 300px;
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Color Picker styling */
+input[type='color'] {
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Input focus styles */
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    ring: 2px;
+    ring-color: var(--primary);
+    ring-opacity: 0.5;
+}
+
+/* Select focus styles */
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    ring: 2px;
+    ring-color: var(--primary);
+    ring-opacity: 0.5;
+}
+
+/* Smooth transitions */
+.calendar-transition {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Interactive hover effects */
+.interactive-hover:hover {
+    background-color: var(--hover-bg, rgba(0, 0, 0, 0.05));
+}
+
+/* Code block styles */
+.code-block {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+/* Calendar container specific styles */
+[calendar='root'] {
+    font-family: var(--font-family) !important;
+}
+
+/* Control panel styles */
+.control-panel {
+    border-radius: 0.75rem;
+    background-color: var(--bg-panel, white);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .responsive-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation for color changes */
+.color-transition {
+    transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
 }
 </style>
