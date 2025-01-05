@@ -663,7 +663,6 @@ const rangePlaygroundCode = computed(() => {
                         icon="Copy"
                         size="sm"
                     >
-                        คัดลอกโค้ด
                     </BcButton>
                 </div>
 
@@ -678,11 +677,11 @@ const rangePlaygroundCode = computed(() => {
                         icon="Copy"
                         size="sm"
                     >
-                        คัดลอกโค้ด
                     </BcButton>
                 </div>
             </div>
         </section>
+        <!-- Props Table -->
         <!-- Props Table -->
         <section class="bg-white rounded-xl shadow-lg p-6 mb-8" id="props">
             <div class="flex items-center gap-3 mb-6">
@@ -690,32 +689,84 @@ const rangePlaygroundCode = computed(() => {
                 <h2 class="text-xl font-semibold">Props ที่รองรับ</h2>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-slate-800 text-white">
-                            <th class="border p-2 text-left">Prop</th>
-                            <th class="border p-2 text-left">Type</th>
-                            <th class="border p-2 text-left">Default</th>
-                            <th class="border p-2 text-left">คำอธิบาย</th>
+            <div class="grid gap-4">
+                <!-- Desktop View -->
+                <table class="hidden lg:table w-full border-collapse">
+                    <thead class="bg-slate-800">
+                        <tr>
+                            <th
+                                class="py-3 px-4 text-left text-white font-medium w-[140px]"
+                            >
+                                Prop
+                            </th>
+                            <th
+                                class="py-3 px-4 text-left text-white font-medium w-[200px]"
+                            >
+                                Type
+                            </th>
+                            <th
+                                class="py-3 px-4 text-left text-white font-medium w-[140px]"
+                            >
+                                Default
+                            </th>
+                            <th
+                                class="py-3 px-4 text-left text-white font-medium"
+                            >
+                                คำอธิบาย
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="prop in propsData" :key="prop.prop">
-                            <td class="border p-2 font-mono">
+                    <tbody class="divide-y divide-slate-200">
+                        <tr
+                            v-for="prop in propsData"
+                            :key="prop.prop"
+                            class="hover:bg-slate-50"
+                        >
+                            <td class="py-3 px-4 font-mono text-sm">
                                 {{ prop.prop }}
                             </td>
-                            <td class="border p-2 text-blue-600">
+                            <td
+                                class="py-3 px-4 text-blue-600 font-mono text-sm break-words"
+                            >
                                 {{ prop.type }}
                             </td>
-                            <td class="border p-2">{{ prop.default }}</td>
-                            <td class="border p-2">{{ prop.description }}</td>
+                            <td class="py-3 px-4 text-sm break-words">
+                                {{ prop.default }}
+                            </td>
+                            <td class="py-3 px-4 text-sm">
+                                {{ prop.description }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Mobile/Tablet View -->
+                <div class="lg:hidden space-y-6">
+                    <div
+                        v-for="prop in propsData"
+                        :key="prop.prop"
+                        class="bg-slate-50 p-4 rounded-lg space-y-3"
+                    >
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-sm font-semibold">{{
+                                prop.prop
+                            }}</span>
+                            <span class="text-sm text-slate-500">{{
+                                prop.default
+                            }}</span>
+                        </div>
+                        <div
+                            class="text-blue-600 font-mono text-sm break-words"
+                        >
+                            {{ prop.type }}
+                        </div>
+                        <div class="text-sm text-slate-600">
+                            {{ prop.description }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-
         <!-- Interactive Playground -->
         <section
             class="bg-white rounded-xl shadow-lg p-6 mb-8"
@@ -726,7 +777,7 @@ const rangePlaygroundCode = computed(() => {
                 <h2 class="text-xl font-semibold">Interactive Playground</h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Single Calendar -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Single Calendar</h3>
@@ -907,7 +958,6 @@ const rangePlaygroundCode = computed(() => {
                                 icon="Copy"
                                 size="sm"
                             >
-                                คัดลอกโค้ด
                             </BcButton>
                         </div>
                         <pre
@@ -1096,7 +1146,6 @@ const rangePlaygroundCode = computed(() => {
                                 icon="Copy"
                                 size="sm"
                             >
-                                คัดลอกโค้ด
                             </BcButton>
                         </div>
                         <pre
@@ -1130,7 +1179,6 @@ const rangePlaygroundCode = computed(() => {
                             icon="Copy"
                             size="sm"
                         >
-                            คัดลอกโค้ด
                         </BcButton>
                     </div>
                     <pre
@@ -1218,7 +1266,6 @@ const rangePlaygroundCode = computed(() => {
                                     icon="Copy"
                                     size="sm"
                                 >
-                                    คัดลอกโค้ด
                                 </BcButton>
                             </div>
                             <pre
