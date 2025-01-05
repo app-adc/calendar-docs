@@ -412,7 +412,7 @@ const playgroundState = ref({
         value: new Date(),
         min: undefined as Date | undefined,
         max: undefined as Date | undefined,
-        lang: 'thai' as 'thai' | 'english',
+        lang: 'thai' as 'thai' | 'english' | 'th' | 'en',
         year: 'th' as 'th' | 'en',
         style: { ...defaultStyle },
     },
@@ -420,7 +420,7 @@ const playgroundState = ref({
         values: [new Date(), new Date()] as [Date, Date],
         min: undefined as Date | undefined,
         max: undefined as Date | undefined,
-        lang: 'thai' as 'thai' | 'english',
+        lang: 'thai' as 'thai' | 'english' | 'th' | 'en',
         year: 'th' as 'th' | 'en',
         style: { ...defaultStyle },
     },
@@ -792,8 +792,10 @@ const rangePlaygroundCode = computed(() => {
                             id="lang"
                             label="ภาษา"
                             :items="[
-                                { value: 'thai', label: 'ภาษาไทย' },
-                                { value: 'english', label: 'English' },
+                                { value: 'thai', label: 'ภาษาไทย เต็ม' },
+                                { value: 'english', label: 'English เต็ม' },
+                                { value: 'th', label: 'ภาษาไทย ย่อ' },
+                                { value: 'en', label: 'English ย่อ' },
                             ]"
                             :dataValue="playgroundState.single.lang"
                             :reduceValue="(item) => item.value"
@@ -981,8 +983,10 @@ const rangePlaygroundCode = computed(() => {
                             id="lang-range"
                             label="ภาษา"
                             :items="[
-                                { value: 'thai', label: 'ภาษาไทย' },
-                                { value: 'english', label: 'English' },
+                                { value: 'thai', label: 'ภาษาไทย เต็ม' },
+                                { value: 'english', label: 'English เต็ม' },
+                                { value: 'th', label: 'ภาษาไทย ย่อ' },
+                                { value: 'en', label: 'English ย่อ' },
                             ]"
                             :dataValue="playgroundState.range.lang"
                             :reduceValue="(item) => item.value"
