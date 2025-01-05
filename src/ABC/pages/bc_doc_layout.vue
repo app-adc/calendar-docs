@@ -89,15 +89,31 @@ function useLayoutNavigation() {
                     icon: 'FileCode',
                     path: '/#type-system',
                 },
+                {
+                    label: 'ADC Directive',
+                    icon: 'Code',
+                    path: { path: 'https://app-adc.github.io/directive-docs' },
+                },
             ],
         },
     ])
 
     const handleMenuClick = (item: MenuItem) => {
         if (item.path) {
-            activeMenuItem.value =
-                typeof item.path === 'string' ? item.path : null
-            router.push(item.path)
+            // ถ้าเป็น external link
+            if (
+                typeof item.path === 'object' &&
+                'path' in item.path &&
+                item.path?.path?.startsWith('http')
+            ) {
+                window.location.href = item.path.path // เปลี่ยนจาก window.open เป็น window.location.href
+            } else {
+                // สำหรับ internal routes
+                activeMenuItem.value =
+                    typeof item.path === 'string' ? item.path : null
+                router.push(item.path)
+            }
+
             if (isMobile.value) {
                 showMobileMenu.value = false
             }
