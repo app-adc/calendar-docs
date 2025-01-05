@@ -42,7 +42,7 @@ const propsData = [
     },
     {
         prop: 'lang',
-        type: '"thai" | "english"',
+        type: '"thai" | "english" | "th" | "en"',
         required: false,
         default: '"thai"',
         description: 'ภาษาที่ใช้แสดงผล',
