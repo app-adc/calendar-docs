@@ -866,6 +866,7 @@ const rangePlaygroundCode = computed(() => {
                                                     class="w-8 h-8 rounded border"
                                                 />
                                                 <input
+                                                    readonly
                                                     type="text"
                                                     :value="
                                                         playgroundState.single
