@@ -1294,18 +1294,14 @@ input[type='color'] {
 input:focus {
     outline: none;
     border-color: var(--primary);
-    ring: 2px;
-    ring-color: var(--primary);
-    ring-opacity: 0.5;
+    box-shadow: 0 0 0 2px var(--primary, rgba(0, 0, 0, 0.5));
 }
 
 /* Select focus styles */
 select:focus {
     outline: none;
     border-color: var(--primary);
-    ring: 2px;
-    ring-color: var(--primary);
-    ring-opacity: 0.5;
+    box-shadow: 0 0 0 2px var(--primary);
 }
 
 /* Smooth transitions */
