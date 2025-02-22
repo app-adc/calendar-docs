@@ -1161,6 +1161,83 @@ const rangePlaygroundCode = computed(() => {
                 </div>
             </div>
         </section>
+        <!-- Keyboard Navigation -->
+        <section
+            class="bg-white rounded-xl shadow-lg p-6 mt-8 mb-8"
+            id="keyboard-navigation"
+        >
+            <div class="flex items-center gap-3 mb-6">
+                <BcIcon name="Lightbulb" size="24" color="primary" />
+                <h2 class="text-xl font-semibold">การนำทางด้วยแป้นพิมพ์</h2>
+            </div>
+
+            <div class="space-y-4">
+                <p class="text-slate-600">
+                    ADC Calendar
+                    รองรับการนำทางด้วยแป้นพิมพ์เพื่อความสะดวกในการใช้งาน
+                    โดยมีปุ่มลัดดังนี้:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">การเปลี่ยนเดือน</h3>
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-center gap-2">
+                                <kbd class="px-2 py-1 bg-white rounded border"
+                                    >←</kbd
+                                >
+                                <span
+                                    >เดือนก่อนหน้า
+                                    ถ้าไม่ได้คลิกที่ปีหรือเดือน</span
+                                >
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <kbd class="px-2 py-1 bg-white rounded border"
+                                    >→</kbd
+                                >
+                                <span
+                                    >เดือนถัดไป
+                                    ถ้าไม่ได้คลิกที่ปีหรือเดือน</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <h3 class="font-semibold mb-2">การเปลี่ยนปี</h3>
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-center gap-2">
+                                <kbd class="px-2 py-1 bg-white rounded border"
+                                    >↑</kbd
+                                >
+                                <span>ปีถัดไป ถ้าไม่ได้คลิกที่ปีหรือเดือน</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <kbd class="px-2 py-1 bg-white rounded border"
+                                    >↓</kbd
+                                >
+                                <span
+                                    >ปีก่อนหน้า
+                                    ถ้าไม่ได้คลิกที่ปีหรือเดือน</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-lg">
+                    <h3 class="font-semibold mb-2">การยืนยันการเลือก</h3>
+                    <div class="flex items-center gap-2">
+                        <kbd class="px-2 py-1 bg-white rounded border"
+                            >Enter</kbd
+                        >
+                        <span class="text-slate-600"
+                            >ยืนยันการเลือกวันที่หรือช่วงวันที่</span
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- Examples -->
         <section class="space-y-6" id="examples">
             <div class="flex items-center gap-3 mb-6">
@@ -1221,6 +1298,20 @@ const rangePlaygroundCode = computed(() => {
                         <li>เรียก stop() เมื่อไม่ได้ใช้งาน calendar แล้ว</li>
                         <li>
                             ระบุ id ที่ไม่ซ้ำกันสำหรับแต่ละ calendar instance
+                        </li>
+                        <li>
+                            ใช้ปุ่มลูกศรบนแป้นพิมพ์เพื่อนำทาง:
+                            <ul class="list-disc list-inside ml-4">
+                                <li>
+                                    ลูกศรซ้าย-ขวา: เปลี่ยนเดือน
+                                    ถ้าไม่ได้คลิกที่ปีหรือเดือน
+                                </li>
+                                <li>
+                                    ลูกศรขึ้น-ลง: เปลี่ยนปี
+                                    ถ้าไม่ได้คลิกที่ปีหรือเดือน
+                                </li>
+                                <li>Enter: ยืนยันการเลือก</li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
