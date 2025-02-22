@@ -75,6 +75,11 @@ function useLayoutNavigation() {
                     path: '/#interactive-playground',
                 },
                 {
+                    label: 'การนำทางด้วยแป้นพิมพ์',
+                    icon: 'Lightbulb',
+                    path: '/#keyboard-navigation',
+                },
+                {
                     label: 'ตัวอย่างการใช้งาน',
                     icon: 'BookOpen',
                     path: '/#examples',
