@@ -17,13 +17,13 @@
     "dependencies": {
         "@types/node": "^22.10.5",
         "@vueuse/core": "^12.3.0",
-        "adc-calendar": "^1.1.3",
-        "adc-directive": "^1.2.5",
+        "adc-calendar": "^1.2.3",
+        "adc-directive": "^1.2.6",
         "happy-dom": "^16.3.0",
         "lucide-vue-next": "^0.469.0",
         "pinia": "^2.3.0",
         "pinia-plugin-persistedstate": "^4.2.0",
-        "vitest": "^2.1.8",
+        "vitest": "^2.1.9",
         "vue": "^3.5.13",
         "vue-router": "^4.5.0"
     },
